@@ -2,23 +2,22 @@ $(document).ready(function() {
 	var wordBank = ["SADDAM HUSSEIN", "ADOLF EICHMANN", "HIDEKI TOJO", "NED KELLY", "JOHN BROWN", "NATHAN HALE", "CAPTAIN KIDD"];
 	var chosenWord = wordBank[Math.floor(Math.random() * wordBank.length)];
 	var currentAnswer = [];
+	var incorrectLetters = [];
 	document.onkeyup = function() {keyPress(event)};
 	function keyPress(evt) {
 		var x = evt.charCode || evt.keyCode;
-		console.log(x);
 		var y = String.fromCharCode(x);
-		console.log(y);
 		var correct = false;
 		for (var i = 0; i < chosenWord.length; i++) {
 			if (y === chosenWord[i]) {
 				currentAnswer[i] = chosenWord[i];
-				updateBoard();
 				correct = true;
 			}
 		}
-		if (correct = false) {
-			//
+		if (correct === false) {
+			incorrectLetters.push(y);
 		}
+		updateBoard();
 	}
 	function updateBoard() {
 		$("#word-box").empty();
@@ -29,12 +28,16 @@ $(document).ready(function() {
 				$("#word-box").append(currentAnswer[j] + " ");
 			}
 		}
+		$("#incorrect-box").empty();
+		for (var k = 0; k < incorrectLetters.length; k++) {
+			$("#incorrect-box").append(incorrectLetters[k] + ", ")
+		}
 	}
-	for (var k = 0; k < chosenWord.length; k++) {
-		if (chosenWord[k] === " ") {
-			currentAnswer[k] = " ";
+	for (var l = 0; l < chosenWord.length; l++) {
+		if (chosenWord[l] === " ") {
+			currentAnswer[l] = " ";
 		} else {
-			currentAnswer[k] = "_";
+			currentAnswer[l] = "_";
 		}
 	}
 	updateBoard();
